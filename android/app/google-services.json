@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "941341828262",
+    "project_id": "hedef-5a1a7",
+    "storage_bucket": "hedef-5a1a7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:941341828262:android:f86d9fb3daaae2f8464067",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_json"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "941341828262-fklpj0o7509806dvdkr1n0kn1m9g2d8r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBRKY5faNkPbdV5lRdV_iBdtxIraKRT-k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "941341828262-fklpj0o7509806dvdkr1n0kn1m9g2d8r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
