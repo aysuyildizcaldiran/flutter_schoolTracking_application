@@ -12,7 +12,6 @@ class _AddViewState extends State<AddView> {
   Hedef3Service hedef3service = Hedef3Service();
 
   TextEditingController hedefAdi = TextEditingController();
-
   TextEditingController telefon = TextEditingController();
   TextEditingController ogrencikota = TextEditingController();
   TextEditingController serviskota = TextEditingController();
@@ -24,9 +23,7 @@ class _AddViewState extends State<AddView> {
   TextEditingController cagriSesAksamController = TextEditingController();
   TextEditingController dLatitude = TextEditingController();
   TextEditingController dLongitude = TextEditingController();
-  TextEditingController textValue = TextEditingController();
-  var items = ['1', '2'];
-  String dropdownvalue = "1";
+  TextEditingController tip = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +47,7 @@ class _AddViewState extends State<AddView> {
                   anlasmaController.text,
                   dLatitude.text,
                   dLongitude.text,
-                  dropdownvalue.toString());
+                  tip.text);
             },
             child: Text(
               "Kaydet",
@@ -82,29 +79,12 @@ class _AddViewState extends State<AddView> {
 
   Container tipMethot() {
     return Container(
-      padding: EdgeInsets.all(20),
-      alignment: Alignment.centerLeft,
-      child: Column(
-        children: [
-          Text("Tip Seçiniz"),
-          DropdownButton(
-            value: dropdownvalue,
-            icon: const Icon(Icons.keyboard_arrow_down),
-            items: items.map((String items) {
-              return DropdownMenuItem(
-                value: items,
-                child: Text(items),
-              );
-            }).toList(),
-            onChanged: (String? newValue) {
-              setState(() {
-                dropdownvalue = newValue!;
-              });
-            },
-          ),
-        ],
-      ),
-    );
+        padding: const EdgeInsets.all(8.0),
+        alignment: Alignment.centerLeft,
+        child: TextFormField(
+          controller: tip,
+          decoration: _InputDecarotor().tip,
+        ));
   }
 
   Padding yerFunction() {
@@ -377,5 +357,9 @@ class _InputDecarotor {
   final dLongitude = InputDecoration(
       hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
       hintText: 'Longitude',
+      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
+  final tip = InputDecoration(
+      hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
+      hintText: "Tip ",
       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
 }
