@@ -11,6 +11,7 @@ class Update extends StatefulWidget {
 }
 
 class _UpdateState extends State<Update> {
+  late Map userData;
   final _hedefAdi = TextEditingController();
   final _telefon = TextEditingController();
   final _ogrencikota = TextEditingController();
@@ -24,13 +25,14 @@ class _UpdateState extends State<Update> {
   final _dLatitude = TextEditingController();
   final _dLongitude = TextEditingController();
   final _tip = TextEditingController();
-
-  late Map userData;
-
+  var items = ["Ogrenci", "Personel"];
+  String dropdownvalue = "Ogrenci";
   @override
   void initState() {
     super.initState();
     getData();
+    dropdownvalue;
+    print(_tip.text);
   }
 
   getData() async {
@@ -55,7 +57,11 @@ class _UpdateState extends State<Update> {
       _cagriSesAksamController.text = userData['cagriSesAksam'].toString();
       _dLatitude.text = userData['yer']['_latitude'].toString();
       _dLongitude.text = userData['yer']['_longitude'].toString();
-      _tip.text = userData['tip'].toString();
+      if (userData['tip'].toString().contains('1')) {
+        dropdownvalue = "Ogrenci";
+      } else {
+        dropdownvalue = "Personel";
+      }
     });
   }
 
@@ -82,7 +88,7 @@ class _UpdateState extends State<Update> {
       "fiyat": fiyatparse,
       "yer._latitude": dlatitudeparse,
       "yer._longitude": dlongitudeparse,
-      "tip": _tip.text
+      "tip": _tip.text,
     });
   }
 
@@ -123,7 +129,6 @@ class _UpdateState extends State<Update> {
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
         controller: _hedefAdi,
-        // initialValue: userData['hedefAdi'].toString(),
         keyboardType: TextInputType.name,
         autofocus: true,
         autofillHints: const [AutofillHints.email],
@@ -330,12 +335,34 @@ class _UpdateState extends State<Update> {
 
   Container tipMethot() {
     return Container(
-        padding: const EdgeInsets.all(8.0),
-        alignment: Alignment.centerLeft,
-        child: TextFormField(
-          controller: _tip,
-          decoration: _InputDecarotor().tip,
-        ));
+      padding: EdgeInsets.all(20),
+      alignment: Alignment.centerLeft,
+      child: Column(
+        children: [
+          Text("Tip Seçiniz"),
+          DropdownButton(
+            value: dropdownvalue,
+            icon: const Icon(Icons.keyboard_arrow_down),
+            items: items.map((String items) {
+              return DropdownMenuItem(
+                value: items,
+                child: Text(items),
+              );
+            }).toList(),
+            onChanged: (String? newValue) {
+              setState(() {
+                dropdownvalue = newValue!;
+                if (dropdownvalue.contains('g')) {
+                  _tip.text = "1";
+                } else {
+                  _tip.text = "2";
+                }
+              });
+            },
+          ),
+        ],
+      ),
+    );
   }
 }
 
