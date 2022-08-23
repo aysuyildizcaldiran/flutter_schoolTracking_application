@@ -32,7 +32,6 @@ class _UpdateState extends State<Update> {
     super.initState();
     getData();
     dropdownvalue;
-    print(_tip.text);
   }
 
   getData() async {

@@ -10,13 +10,12 @@ class AddView extends StatefulWidget {
 
 class _AddViewState extends State<AddView> {
   Hedef3Service hedef3service = Hedef3Service();
-
   TextEditingController hedefAdi = TextEditingController();
   TextEditingController telefon = TextEditingController();
   TextEditingController ogrencikota = TextEditingController();
   TextEditingController serviskota = TextEditingController();
   TextEditingController ogrenciSayisi = TextEditingController();
-  TextEditingController cagriSesId = TextEditingController();
+  final cagriSesId = TextEditingController();
   TextEditingController komisyon = TextEditingController();
   TextEditingController fiyat = TextEditingController();
   TextEditingController anlasmaController = TextEditingController();
@@ -24,6 +23,13 @@ class _AddViewState extends State<AddView> {
   TextEditingController dLatitude = TextEditingController();
   TextEditingController dLongitude = TextEditingController();
   TextEditingController tip = TextEditingController();
+  var items = ["Ogrenci", "Personel"];
+  String dropdownvalue = "Ogrenci";
+  @override
+  void initState() {
+    super.initState();
+    cagriSesId.text = "13508667";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,19 +41,20 @@ class _AddViewState extends State<AddView> {
           TextButton(
             onPressed: () {
               Hedef3Service().addHedef(
-                  hedefAdi.text,
-                  telefon.text,
-                  ogrencikota.text,
-                  serviskota.text,
-                  ogrenciSayisi.text,
-                  cagriSesId.text,
-                  komisyon.text,
-                  fiyat.text,
-                  cagriSesAksamController.text,
-                  anlasmaController.text,
-                  dLatitude.text,
-                  dLongitude.text,
-                  tip.text);
+                hedefAdi.text,
+                telefon.text,
+                ogrencikota.text,
+                serviskota.text,
+                ogrenciSayisi.text,
+                cagriSesId.text,
+                komisyon.text,
+                fiyat.text,
+                cagriSesAksamController.text,
+                anlasmaController.text,
+                dLatitude.text,
+                dLongitude.text,
+                tip.text,
+              );
             },
             child: Text(
               "Kaydet",
@@ -69,7 +76,7 @@ class _AddViewState extends State<AddView> {
               anlasma(),
               cagriSesAksam(),
               yerFunction(),
-              tipMethot()
+              tipMethot(),
             ],
           ),
         ),
@@ -79,12 +86,36 @@ class _AddViewState extends State<AddView> {
 
   Container tipMethot() {
     return Container(
-        padding: const EdgeInsets.all(8.0),
-        alignment: Alignment.centerLeft,
-        child: TextFormField(
-          controller: tip,
-          decoration: _InputDecarotor().tip,
-        ));
+      padding: EdgeInsets.all(20),
+      alignment: Alignment.centerLeft,
+      child: Column(
+        children: [
+          Text("Tip Seçiniz"),
+          DropdownButton(
+            value: dropdownvalue,
+            icon: const Icon(Icons.keyboard_arrow_down),
+            items: items.map((String items) {
+              return DropdownMenuItem(
+                value: items,
+                child: Text(items),
+              );
+            }).toList(),
+            onChanged: (String? newValue) {
+              setState(() {
+                dropdownvalue = newValue!;
+                if (dropdownvalue.contains('g')) {
+                  tip.text = "1";
+                  cagriSesId.text = "13508667";
+                } else {
+                  tip.text = "2";
+                  cagriSesId.text = "20825999";
+                }
+              });
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   Padding yerFunction() {

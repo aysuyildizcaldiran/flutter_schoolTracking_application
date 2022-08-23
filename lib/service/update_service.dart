@@ -1,14 +1,14 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application_json/model/hedef3.dart';
 
 class UpdateService {
   late String id;
-  final FirebaseFirestore _firestore2 = FirebaseFirestore.instance;
+  late Map userData;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  final DocumentReference _firestore =
-      FirebaseFirestore.instance.collection('collection') as DocumentReference<Object?>;
   Future<String> update(
     String hedefAdi,
     String telefon,
@@ -52,10 +52,33 @@ class UpdateService {
       guncelleme: 1652640548,
     );
     String sonuc = '';
-
-    await _firestore2.doc(id).set(({
-          "hedefAdi": hedefAdi,
-        }));
+    var ref2 = await _firestore.collection("hedef").doc(id).update({
+      "hedefAdi": hedefAdi,
+      "telefon": telefon,
+      "ogrencikota": ogrencikota,
+      "serviskota": serviskota,
+      "ogrenciSayisi": ogrenciSayisi,
+      "cagriSesId": cagriSesId,
+      "komisyon": komisyon,
+      "fiyat": fiyat,
+      "cagriSesAksamController": cagriSesAksamController,
+      "anlasmaController": anlasmaController,
+      "dLatitude": dLatitude,
+      "dLongitude": dLongitude,
+      "tip": tip,
+    });
     return sonuc;
+  }
+
+  getData(String id) async {
+    try {
+      var snap = await FirebaseFirestore.instance.collection("hedef").doc(id).get();
+      userData = snap.data()!;
+    } catch (e) {
+      print(e.toString());
+    }
+    print("************");
+    print(userData['yer/_longitude'].toString());
+    print("*************");
   }
 }

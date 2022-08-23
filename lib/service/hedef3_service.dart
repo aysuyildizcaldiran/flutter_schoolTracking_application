@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_application_json/model/arama.dart';
 import 'package:flutter_application_json/model/hedef3.dart';
+import 'package:flutter_application_json/model/odeme.dart';
 
 class Hedef3Service {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
+  String sonuc = '';
   Future<String> addHedef(
     String hedefAdi,
     String telefon,
@@ -170,9 +172,12 @@ class Hedef3Service {
             iki: Iki(
                 durum: true, yon: 2, kilit: true, sms: true, renk: "0xff30a9e0", mesaj: "Serbest çıkış izni verildi."),
             uc: Uc(kilit: true, renk: "0xffffc744", mesaj: "Okulda kalacak.", durum: true, yon: 2, sms: true)));
-    String sonuc = '';
-
     DocumentReference ref = await _firestore.collection("hedef").add(h.toJson());
+    OdemeJson odeme = OdemeJson(hedefId: ref.id);
+    AramaJson arama = AramaJson(hedefId: ref.id);
+
+    await _firestore.collection("odeme").add(odeme.toJson());
+    await _firestore.collection("arama").add(arama.toJson());
     // DocumentReference ref3 = await _firestore.collection("hedef").get(ref.id);
     // print("-------------------------");
     // print(ref.id);
