@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_json/service/hedef3_service.dart';
-import 'package:flutter_application_json/view/add_view.dart';
+import 'package:flutter_application_json/material/%C4%B1cons.dart';
+import 'package:flutter_application_json/material/colors.dart';
 import 'package:flutter_application_json/view/ekle_menu.dart';
 import 'package:flutter_application_json/view/list_view.dart';
 import 'package:flutter_application_json/view/search_view.dart';
@@ -28,34 +28,36 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: _widgetOptions.elementAt(_selectedIndex),
-        bottomNavigationBar: ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topRight: Radius.circular(40),
-            topLeft: Radius.circular(40),
+    return Scaffold(body: _widgetOptions.elementAt(_selectedIndex), bottomNavigationBar: clipRRectMethot());
+  }
+
+  ClipRRect clipRRectMethot() {
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        topRight: Radius.circular(40),
+        topLeft: Radius.circular(40),
+      ),
+      child: BottomNavigationBar(
+        backgroundColor: ProjectColors.orange,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: ProjectIcon.listIcon,
+            label: 'List',
           ),
-          child: BottomNavigationBar(
-            backgroundColor: Color.fromARGB(255, 245, 183, 48),
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.list, color: Colors.white),
-                label: 'List',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.add, color: Colors.white),
-                label: 'Add',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.search_outlined, color: Colors.white),
-                label: 'Search',
-              ),
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: Colors.white,
-            showUnselectedLabels: false,
-            onTap: _onItemTapped,
+          BottomNavigationBarItem(
+            icon: ProjectIcon.addIcon,
+            label: 'Add',
           ),
-        ));
+          BottomNavigationBarItem(
+            icon: ProjectIcon.searchIcon,
+            label: 'Search',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: ProjectColors.white,
+        showUnselectedLabels: false,
+        onTap: _onItemTapped,
+      ),
+    );
   }
 }

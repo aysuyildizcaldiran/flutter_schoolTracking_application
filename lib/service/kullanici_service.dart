@@ -19,7 +19,8 @@ class KullaniciServis {
       bool soforisChecked,
       bool adminisChecked,
       bool idariisChecked,
-      bool veliisChecked) async {
+      bool veliisChecked,
+      List<String> hedefID) async {
     var bildirimTelparse = int.parse(bildirimTel);
     var dLatitudeparse = int.parse(dLatitude);
     var dLongitudeparse = int.parse(dLongitude);
@@ -44,7 +45,8 @@ class KullaniciServis {
         izin: Izin(baslaTarih: 0, bitirTarih: 0),
         signalId: "123123",
         guncelleme: 0,
-        durum: true);
+        durum: true,
+        hedefId: hedefID);
 
     DocumentReference ref = await _firestore.collection("kisi").add(kullaniciJson.toJson());
 

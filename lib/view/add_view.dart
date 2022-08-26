@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_json/material/%C4%B1cons.dart';
+import 'package:flutter_application_json/material/colors.dart';
+import 'package:flutter_application_json/material/text.dart';
 import 'package:flutter_application_json/service/hedef3_service.dart';
 
 class AddView extends StatefulWidget {
@@ -34,35 +37,7 @@ class _AddViewState extends State<AddView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 245, 183, 48),
-        // title: Text("Okul Ekle", style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white)),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Hedef3Service().addHedef(
-                hedefAdi.text,
-                telefon.text,
-                ogrencikota.text,
-                serviskota.text,
-                ogrenciSayisi.text,
-                cagriSesId.text,
-                komisyon.text,
-                fiyat.text,
-                cagriSesAksamController.text,
-                anlasmaController.text,
-                dLatitude.text,
-                dLongitude.text,
-                tip.text,
-              );
-            },
-            child: Text(
-              "Kaydet",
-              style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white),
-            ),
-          ),
-        ],
-      ),
+      appBar: hedefAddAppBar(context),
       body: ListView(children: [
         Padding(
           padding: const EdgeInsets.all(10),
@@ -84,16 +59,53 @@ class _AddViewState extends State<AddView> {
     );
   }
 
+  AppBar hedefAddAppBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: ProjectColors.orange,
+      title: Text(ProjectText.okulEkle,
+          style: Theme.of(context).textTheme.subtitle1?.copyWith(color: ProjectColors.white)),
+      actions: [
+        addHedefButton(context),
+      ],
+    );
+  }
+
+  TextButton addHedefButton(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        Hedef3Service().addHedef(
+          hedefAdi.text,
+          telefon.text,
+          ogrencikota.text,
+          serviskota.text,
+          ogrenciSayisi.text,
+          cagriSesId.text,
+          komisyon.text,
+          fiyat.text,
+          cagriSesAksamController.text,
+          anlasmaController.text,
+          dLatitude.text,
+          dLongitude.text,
+          tip.text,
+        );
+      },
+      child: Text(
+        ProjectText.kaydet,
+        style: Theme.of(context).textTheme.subtitle2?.copyWith(color: ProjectColors.white),
+      ),
+    );
+  }
+
   Container tipMethot() {
     return Container(
       padding: EdgeInsets.all(20),
       alignment: Alignment.centerLeft,
       child: Column(
         children: [
-          Text("Tip Seçiniz"),
+          Text(ProjectText.tipSeciniz),
           DropdownButton(
             value: dropdownvalue,
-            icon: const Icon(Icons.keyboard_arrow_down),
+            icon: ProjectIcon.tipIcon,
             items: items.map((String items) {
               return DropdownMenuItem(
                 value: items,

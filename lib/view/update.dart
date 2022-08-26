@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_application_json/service/update_service.dart';
+import 'package:flutter_application_json/material/%C4%B1cons.dart';
+import 'package:flutter_application_json/material/colors.dart';
+import 'package:flutter_application_json/material/text.dart';
 
 class Update extends StatefulWidget {
   final String id;
@@ -15,7 +17,7 @@ class _UpdateState extends State<Update> {
   final _hedefAdi = TextEditingController();
   final _telefon = TextEditingController();
   final _ogrencikota = TextEditingController();
-  final _serviskota = TextEditingController();
+  TextEditingController serviskota = TextEditingController();
   final _ogrenciSayisi = TextEditingController();
   final _cagriSesId = TextEditingController();
   final _komisyon = TextEditingController();
@@ -27,10 +29,11 @@ class _UpdateState extends State<Update> {
   final _tip = TextEditingController();
   var items = ["Ogrenci", "Personel"];
   String dropdownvalue = "Ogrenci";
+
   @override
   void initState() {
-    super.initState();
     getData();
+    super.initState();
     dropdownvalue;
   }
 
@@ -47,7 +50,7 @@ class _UpdateState extends State<Update> {
       _hedefAdi.text = userData['hedefAdi'];
       _telefon.text = userData['telefon'].toString();
       _ogrencikota.text = userData['ogrenciKota'].toString();
-      _serviskota.text = userData['serviskota'].toString();
+      serviskota.text = userData['serviskota'].toString();
       _ogrenciSayisi.text = userData['ogrenciSayisi'].toString();
       _cagriSesId.text = userData['cagriSesId'].toString();
       _komisyon.text = userData['komisyon'].toString();
@@ -67,7 +70,7 @@ class _UpdateState extends State<Update> {
   getUpdate() async {
     var telefonparse = int.parse(_telefon.text);
     var ogrenciKotaparse = int.parse(_ogrencikota.text);
-    var servisKotaparse = int.parse(_serviskota.text);
+    var servisKotaparse = int.parse(serviskota.text);
     var ogrenciSayisiparse = int.parse(_ogrenciSayisi.text);
     var fiyatparse = int.parse(_fiyat.text);
     var komisyonparse = int.parse(_komisyon.text);
@@ -95,15 +98,15 @@ class _UpdateState extends State<Update> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 245, 183, 48),
+          backgroundColor: ProjectColors.orange,
           actions: [
             TextButton(
               onPressed: () {
                 getUpdate();
               },
               child: Text(
-                "Güncelle",
-                style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white),
+                ProjectText.guncelle,
+                style: Theme.of(context).textTheme.subtitle2?.copyWith(color: ProjectColors.white),
               ),
             ),
           ],
@@ -162,7 +165,7 @@ class _UpdateState extends State<Update> {
               width: 170,
               height: 50,
               child: TextFormField(
-                  controller: _serviskota,
+                  controller: serviskota,
                   keyboardType: TextInputType.number,
                   autofocus: true,
                   autofillHints: const [AutofillHints.telephoneNumber],
