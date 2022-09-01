@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_json/material/colors.dart';
 import 'package:flutter_application_json/material/text.dart';
 import 'package:flutter_application_json/service/kullanici_service.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class KullaniciAdd extends StatefulWidget {
   final String id;
@@ -59,12 +60,8 @@ class _KullaniciAddState extends State<KullaniciAdd> {
             tercihFunction(context),
             tercihIslem(),
             yetkiMethot(context),
-            soforFunction(context),
             hostesFunction(context),
-            kullaniciFunction(context),
-            adminFunction(context),
             idariFunction(context),
-            veliFunction(context)
           ],
         )
       ]),
@@ -137,24 +134,34 @@ class _KullaniciAddState extends State<KullaniciAdd> {
       actions: [
         TextButton(
           onPressed: () {
-            var addKisi = kullaniciServis.addKisi(
-              nameController.text,
-              telefon.text,
-              dLatitude.text,
-              dLongitude.text,
-              sifreController.text,
-              yakinMesafeController.text,
-              telefon.text,
-              smsisChecked,
-              cagriisChecked,
-              hostesisChecked,
-              kullaniciisChecked,
-              soforisChecked,
-              adminisChecked,
-              idariisChecked,
-              veliisChecked,
-              <String>[hedefID.text],
-            );
+            try {
+              kullaniciServis.addKisi(
+                nameController.text,
+                telefon.text,
+                dLatitude.text,
+                dLongitude.text,
+                sifreController.text,
+                yakinMesafeController.text,
+                telefon.text,
+                smsisChecked,
+                cagriisChecked,
+                hostesisChecked,
+                kullaniciisChecked,
+                soforisChecked,
+                adminisChecked,
+                idariisChecked,
+                veliisChecked,
+                <String>[hedefID.text],
+              ).then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("Kullanıcı Ekleme Başarılı!"),
+                    backgroundColor: ProjectColors.amber,
+                  )));
+            } catch (e) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(e.toString()),
+                backgroundColor: ProjectColors.amber,
+              ));
+            }
           },
           child: Text(
             ProjectText.kaydet,
@@ -167,6 +174,7 @@ class _KullaniciAddState extends State<KullaniciAdd> {
 
   Row hostesFunction(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -181,13 +189,6 @@ class _KullaniciAddState extends State<KullaniciAdd> {
             });
           })),
         ),
-      ],
-    );
-  }
-
-  Row soforFunction(BuildContext context) {
-    return Row(
-      children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(ProjectText.sofor, style: Theme.of(context).textTheme.subtitle1),
@@ -201,13 +202,6 @@ class _KullaniciAddState extends State<KullaniciAdd> {
             });
           })),
         ),
-      ],
-    );
-  }
-
-  Row kullaniciFunction(BuildContext context) {
-    return Row(
-      children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(ProjectText.kullanici, style: Theme.of(context).textTheme.subtitle1),
@@ -225,8 +219,9 @@ class _KullaniciAddState extends State<KullaniciAdd> {
     );
   }
 
-  Row adminFunction(BuildContext context) {
+  Row idariFunction(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -241,13 +236,6 @@ class _KullaniciAddState extends State<KullaniciAdd> {
             });
           })),
         ),
-      ],
-    );
-  }
-
-  Row idariFunction(BuildContext context) {
-    return Row(
-      children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(ProjectText.idari, style: Theme.of(context).textTheme.subtitle1),
@@ -261,13 +249,6 @@ class _KullaniciAddState extends State<KullaniciAdd> {
             });
           })),
         ),
-      ],
-    );
-  }
-
-  Row veliFunction(BuildContext context) {
-    return Row(
-      children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(ProjectText.veli, style: Theme.of(context).textTheme.subtitle1),
@@ -408,39 +389,30 @@ class _KullaniciAddState extends State<KullaniciAdd> {
 
 class _InputDecarotor {
   final nameInput = InputDecoration(
-      hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
-      hintText: 'Ad Soyad',
+      label: Text("İsim"),
       prefixIcon: const Icon(
         Icons.person,
         color: Colors.grey,
       ),
       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final telephoneInput = InputDecoration(
-      hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
-      hintText: 'Telefon Numarası',
+      label: Text("Telefon Numarası"),
       prefixIcon: const Icon(
         Icons.phone,
         color: Colors.grey,
       ),
       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final sifreInput = InputDecoration(
-      hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
-      hintText: 'Şifre',
+      label: Text("Şifre"),
       prefixIcon: const Icon(
         Icons.password_outlined,
         color: Colors.grey,
       ),
       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final dLatitude = InputDecoration(
-      hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
-      hintText: 'Latitude',
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
+      label: Text("Latitude"), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final dLongitude = InputDecoration(
-      hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
-      hintText: 'Longitude',
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
+      label: Text("Longitude"), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final yakinMesafe = InputDecoration(
-      hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
-      hintText: 'Yakın Mesafe',
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
+      label: Text("Yakın Mesafe"), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
 }

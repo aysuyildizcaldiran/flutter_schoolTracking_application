@@ -17,7 +17,7 @@ class _UpdateState extends State<Update> {
   final _hedefAdi = TextEditingController();
   final _telefon = TextEditingController();
   final _ogrencikota = TextEditingController();
-  TextEditingController serviskota = TextEditingController();
+  final _serviskota = TextEditingController();
   final _ogrenciSayisi = TextEditingController();
   final _cagriSesId = TextEditingController();
   final _komisyon = TextEditingController();
@@ -29,12 +29,14 @@ class _UpdateState extends State<Update> {
   final _tip = TextEditingController();
   var items = ["Ogrenci", "Personel"];
   String dropdownvalue = "Ogrenci";
-
+  var itemsss = ["Bireysel", "Topluca"];
+  String anlasmadropdownvalue = "Bireysel";
   @override
   void initState() {
     getData();
     super.initState();
     dropdownvalue;
+    anlasmadropdownvalue;
   }
 
   getData() async {
@@ -50,11 +52,11 @@ class _UpdateState extends State<Update> {
       _hedefAdi.text = userData['hedefAdi'];
       _telefon.text = userData['telefon'].toString();
       _ogrencikota.text = userData['ogrenciKota'].toString();
-      serviskota.text = userData['serviskota'].toString();
+      _serviskota.text = userData['servisKota'].toString();
       _ogrenciSayisi.text = userData['ogrenciSayisi'].toString();
-      _cagriSesId.text = userData['cagriSesId'].toString();
+      _cagriSesId.text = userData['cagrisesId'].toString();
       _komisyon.text = userData['komisyon'].toString();
-      _fiyat.text = userData['fiyat'].toString();
+      _fiyat.text = userData['fiyatnet'].toString();
       _anlasmaController.text = userData['anlasma'];
       _cagriSesAksamController.text = userData['cagriSesAksam'].toString();
       _dLatitude.text = userData['yer']['_latitude'].toString();
@@ -64,17 +66,23 @@ class _UpdateState extends State<Update> {
       } else {
         dropdownvalue = "Personel";
       }
+      if (userData['anlasma'].toString().contains('1')) {
+        anlasmadropdownvalue = "Bireysel";
+      } else {
+        anlasmadropdownvalue = "Topluca";
+      }
     });
   }
 
   getUpdate() async {
     var telefonparse = int.parse(_telefon.text);
     var ogrenciKotaparse = int.parse(_ogrencikota.text);
-    var servisKotaparse = int.parse(serviskota.text);
+    var servisKotaparse = int.parse(_serviskota.text);
     var ogrenciSayisiparse = int.parse(_ogrenciSayisi.text);
     var fiyatparse = int.parse(_fiyat.text);
     var komisyonparse = int.parse(_komisyon.text);
     var cagriSesIdparse = int.parse(_cagriSesId.text);
+    var cagriSesAksamparse = int.parse(_cagriSesAksamController.text);
     var dlatitudeparse = double.parse(_dLatitude.text);
     var dlongitudeparse = double.parse(_dLongitude.text);
 
@@ -82,15 +90,16 @@ class _UpdateState extends State<Update> {
       "hedefAdi": _hedefAdi.text,
       "telefon": telefonparse,
       "ogrencikota": ogrenciKotaparse,
-      "serviskota": servisKotaparse,
+      "servisKota": servisKotaparse,
       "ogrenciSayisi": ogrenciSayisiparse,
-      "cagriSesId": cagriSesIdparse,
+      "cagrisesId": cagriSesIdparse,
       "anlasma": _anlasmaController.text,
       "komisyon": komisyonparse,
-      "fiyat": fiyatparse,
+      "fiyatnet": fiyatparse,
       "yer._latitude": dlatitudeparse,
       "yer._longitude": dlongitudeparse,
       "tip": _tip.text,
+      "cagriSesAksam": cagriSesAksamparse
     });
   }
 
@@ -103,6 +112,10 @@ class _UpdateState extends State<Update> {
             TextButton(
               onPressed: () {
                 getUpdate();
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Okul Güncelleme Başarılı!"),
+                  backgroundColor: ProjectColors.amber,
+                ));
               },
               child: Text(
                 ProjectText.guncelle,
@@ -165,7 +178,7 @@ class _UpdateState extends State<Update> {
               width: 170,
               height: 50,
               child: TextFormField(
-                  controller: serviskota,
+                  controller: _serviskota,
                   keyboardType: TextInputType.number,
                   autofocus: true,
                   autofillHints: const [AutofillHints.telephoneNumber],
@@ -269,20 +282,6 @@ class _UpdateState extends State<Update> {
     );
   }
 
-  Padding anlasma() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextFormField(
-        controller: _anlasmaController,
-        keyboardType: TextInputType.name,
-        autofocus: true,
-        autofillHints: const [AutofillHints.name],
-        textInputAction: TextInputAction.next,
-        decoration: _InputDecarotor().anlasmaInput,
-      ),
-    );
-  }
-
   Padding cagriSesAksam() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -356,8 +355,44 @@ class _UpdateState extends State<Update> {
                 dropdownvalue = newValue!;
                 if (dropdownvalue.contains('g')) {
                   _tip.text = "1";
+                  _cagriSesId.text = "13508667";
+                  _cagriSesAksamController.text = "13508667";
                 } else {
                   _tip.text = "2";
+                  _cagriSesId.text = "20825999";
+                  _cagriSesAksamController.text = "20825999";
+                }
+              });
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container anlasma() {
+    return Container(
+      padding: EdgeInsets.all(20),
+      alignment: Alignment.centerLeft,
+      child: Column(
+        children: [
+          Text(ProjectText.anlasmaSeciniz),
+          DropdownButton(
+            value: anlasmadropdownvalue,
+            icon: ProjectIcon.tipIcon,
+            items: itemsss.map((String itemss) {
+              return DropdownMenuItem(
+                value: itemss,
+                child: Text(itemss),
+              );
+            }).toList(),
+            onChanged: (String? newVal) {
+              setState(() {
+                anlasmadropdownvalue = newVal!;
+                if (anlasmadropdownvalue.contains('B')) {
+                  _anlasmaController.text = "1";
+                } else {
+                  _anlasmaController.text = "2";
                 }
               });
             },
@@ -370,14 +405,14 @@ class _UpdateState extends State<Update> {
 
 class _InputDecarotor {
   final nameInput = InputDecoration(
-      hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
-      hintText: 'Name',
+      label: Text("İsim"),
       prefixIcon: const Icon(
         Icons.person,
         color: Colors.grey,
       ),
       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final telephoneInput = InputDecoration(
+      label: Text("Telefon Numarası"),
       prefixIcon: const Icon(
         Icons.phone,
         color: Colors.grey,
@@ -385,7 +420,7 @@ class _InputDecarotor {
       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final kotaInput = InputDecoration(
       hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
-      hintText: 'Öğrenci Kota Sayısı',
+      label: Text("Öğrenci Kota Sayısı"),
       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final tipInput = InputDecoration(
       hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
@@ -393,36 +428,22 @@ class _InputDecarotor {
       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final cagriSesIdInput = InputDecoration(
       hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
-      hintText: 'Çağrı Ses ID',
+      label: Text("Çağrı Ses ID"),
       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final anlasmaInput = InputDecoration(
-      hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
-      hintText: 'Anlasma',
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
+      label: Text("Anlasma"), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final fiyatNetInput = InputDecoration(
-      hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
-      hintText: 'Net Fiyat',
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
+      label: Text("Net Fiyat"), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final ogrenciSayisiInput = InputDecoration(
-      hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
-      hintText: 'Öğrenci Sayısı',
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
+      label: Text("Öğrenci Sayısı"), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final cagriSesAksamInput = InputDecoration(
-      hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
-      hintText: 'Çağrı Ses Akşam',
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
+      label: Text("Çağrı Ses Akşam"), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final komisyonInput = InputDecoration(
-      hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
-      hintText: 'Komisyon',
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
+      label: Text("Komisyon"), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final dLatitude = InputDecoration(
-      hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
-      hintText: 'Latitude',
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
+      label: Text("Latitude"), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final dLongitude = InputDecoration(
-      hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
-      hintText: 'Longitude',
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
+      label: Text("Longitude"), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final tip = InputDecoration(
       hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));

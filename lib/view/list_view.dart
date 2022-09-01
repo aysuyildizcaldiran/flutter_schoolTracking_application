@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application_json/material/colors.dart';
 import 'package:flutter_application_json/view/kullanici_add_view.dart';
+import 'package:flutter_application_json/view/login.dart';
 import 'package:flutter_application_json/view/update.dart';
 
 class Lists extends StatefulWidget {
@@ -20,6 +21,15 @@ class _ListsState extends State<Lists> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: ProjectColors.orange,
+          title: Text("Okul List"),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                      context, MaterialPageRoute(builder: (context) => const Login()), (route) => false);
+                },
+                icon: Icon(Icons.outbond_outlined))
+          ],
         ),
         body: querySnapshot());
   }

@@ -4,6 +4,7 @@ class ProjectText {
   static String okulEkle = "Okul Ekle";
   static String kaydet = "Kaydet";
   static String tipSeciniz = "Tip Seçiniz";
+  static String anlasmaSeciniz = "Anlaşma Seçiniz";
   static String guncelle = "Güncelle";
   static String durum = "Durum";
   static String sms = "SMS";

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_json/material/%C4%B1cons.dart';
 import 'package:flutter_application_json/material/colors.dart';
-import 'package:flutter_application_json/view/ekle_menu.dart';
+import 'package:flutter_application_json/view/add_view.dart';
 import 'package:flutter_application_json/view/list_view.dart';
 import 'package:flutter_application_json/view/search_view.dart';
 
@@ -17,7 +17,7 @@ class _HomeState extends State<Home> {
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     Lists(),
-    Menu(),
+    AddView(),
     SearchView(),
   ];
   void _onItemTapped(int index) {

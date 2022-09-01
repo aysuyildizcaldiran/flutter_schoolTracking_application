@@ -48,7 +48,6 @@ class _KullaniciUpdateState extends State<KullaniciUpdate> {
     idariisChecked;
     veliisChecked;
     durumisChecked;
-    hedef;
   }
 
   getData() async {
@@ -56,7 +55,10 @@ class _KullaniciUpdateState extends State<KullaniciUpdate> {
       var snap = await FirebaseFirestore.instance.collection("kisi").doc(widget.id).get();
       userData = snap.data()!;
     } catch (e) {
-      print(e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Kullanıcı Getirilemedi!"),
+        backgroundColor: ProjectColors.amber,
+      ));
     }
 
     setState(() {
@@ -76,7 +78,6 @@ class _KullaniciUpdateState extends State<KullaniciUpdate> {
       idariisChecked = userData['yetki']['idari'];
       veliisChecked = userData['yetki']['veli'];
       durumisChecked = userData['durum'];
-      hedef.text = userData['hedefId'].toString();
     });
   }
 
@@ -102,7 +103,10 @@ class _KullaniciUpdateState extends State<KullaniciUpdate> {
       "yetki.idari": idariisChecked,
       "yetki.veli": veliisChecked,
       "durum": durumisChecked,
-    });
+    }).then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Kullanıcı Güncelleme Başarılı!"),
+          backgroundColor: ProjectColors.amber,
+        )));
   }
 
   @override
@@ -124,7 +128,6 @@ class _KullaniciUpdateState extends State<KullaniciUpdate> {
             idariFunction(context),
             durumMethot(context),
             durumFunction(context),
-            hedefFunction()
           ],
         )
       ]),
@@ -462,19 +465,6 @@ class _KullaniciUpdateState extends State<KullaniciUpdate> {
             )),
       ),
     ]);
-  }
-
-  Padding hedefFunction() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextField(
-        controller: hedef,
-        autofocus: true,
-        autofillHints: const [AutofillHints.email],
-        textInputAction: TextInputAction.next,
-        decoration: _InputDecarotor().nameInput,
-      ),
-    );
   }
 }
 
