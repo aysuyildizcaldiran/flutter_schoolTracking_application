@@ -79,7 +79,7 @@ class _ListsState extends State<Lists> {
                           )));
             },
             icon: Icon(
-              Icons.document_scanner_outlined,
+              Icons.edit,
               color: ProjectColors.amber,
             )),
         IconButton(

@@ -14,29 +14,27 @@ class Update extends StatefulWidget {
 
 class _UpdateState extends State<Update> {
   late Map userData;
-  final _hedefAdi = TextEditingController();
-  final _telefon = TextEditingController();
-  final _ogrencikota = TextEditingController();
-  final _serviskota = TextEditingController();
-  final _ogrenciSayisi = TextEditingController();
-  final _cagriSesId = TextEditingController();
-  final _komisyon = TextEditingController();
-  final _fiyat = TextEditingController();
-  final _anlasmaController = TextEditingController();
-  final _cagriSesAksamController = TextEditingController();
-  final _dLatitude = TextEditingController();
-  final _dLongitude = TextEditingController();
-  final _tip = TextEditingController();
+  TextEditingController hedefAdi = TextEditingController();
+  TextEditingController telefon = TextEditingController();
+  TextEditingController ogrencikota = TextEditingController();
+  TextEditingController serviskota = TextEditingController();
+  TextEditingController cagriSesId = TextEditingController();
+  TextEditingController komisyon = TextEditingController();
+  TextEditingController fiyat = TextEditingController();
+  TextEditingController anlasmaController = TextEditingController();
+  TextEditingController cagriSesAksamController = TextEditingController();
+  TextEditingController dLatitude = TextEditingController();
+  TextEditingController dLongitude = TextEditingController();
+  TextEditingController tip = TextEditingController();
   var items = ["Ogrenci", "Personel"];
   String dropdownvalue = "Ogrenci";
   var itemsss = ["Bireysel", "Topluca"];
   String anlasmadropdownvalue = "Bireysel";
+
   @override
   void initState() {
-    getData();
     super.initState();
-    dropdownvalue;
-    anlasmadropdownvalue;
+    getData();
   }
 
   getData() async {
@@ -49,18 +47,17 @@ class _UpdateState extends State<Update> {
 
     setState(() {
       userData = userData;
-      _hedefAdi.text = userData['hedefAdi'];
-      _telefon.text = userData['telefon'].toString();
-      _ogrencikota.text = userData['ogrenciKota'].toString();
-      _serviskota.text = userData['servisKota'].toString();
-      _ogrenciSayisi.text = userData['ogrenciSayisi'].toString();
-      _cagriSesId.text = userData['cagrisesId'].toString();
-      _komisyon.text = userData['komisyon'].toString();
-      _fiyat.text = userData['fiyatnet'].toString();
-      _anlasmaController.text = userData['anlasma'];
-      _cagriSesAksamController.text = userData['cagriSesAksam'].toString();
-      _dLatitude.text = userData['yer']['_latitude'].toString();
-      _dLongitude.text = userData['yer']['_longitude'].toString();
+      hedefAdi.text = userData['hedefAdi'];
+      telefon.text = userData['telefon'].toString();
+      ogrencikota.text = userData['ogrenciKota'].toString();
+      serviskota.text = userData['servisKota'].toString();
+      cagriSesId.text = userData['cagrisesId'].toString();
+      komisyon.text = userData['komisyon'].toString();
+      fiyat.text = userData['fiyatnet'].toString();
+      anlasmaController.text = userData['anlasma'];
+      cagriSesAksamController.text = userData['cagriSesAksam'].toString();
+      dLatitude.text = userData['yer']['_latitude'].toString();
+      dLongitude.text = userData['yer']['_longitude'].toString();
       if (userData['tip'].toString().contains('1')) {
         dropdownvalue = "Ogrenci";
       } else {
@@ -75,32 +72,34 @@ class _UpdateState extends State<Update> {
   }
 
   getUpdate() async {
-    var telefonparse = int.parse(_telefon.text);
-    var ogrenciKotaparse = int.parse(_ogrencikota.text);
-    var servisKotaparse = int.parse(_serviskota.text);
-    var ogrenciSayisiparse = int.parse(_ogrenciSayisi.text);
-    var fiyatparse = int.parse(_fiyat.text);
-    var komisyonparse = int.parse(_komisyon.text);
-    var cagriSesIdparse = int.parse(_cagriSesId.text);
-    var cagriSesAksamparse = int.parse(_cagriSesAksamController.text);
-    var dlatitudeparse = double.parse(_dLatitude.text);
-    var dlongitudeparse = double.parse(_dLongitude.text);
+    int telefonparse = int.parse(telefon.text);
+    var ogrenciKotaparse = int.parse(ogrencikota.text);
+    var servisKotaparse = int.parse(serviskota.text);
+    var fiyatparse = int.parse(fiyat.text);
+    var komisyonparse = int.parse(komisyon.text);
+    var cagriSesIdparse = int.parse(cagriSesId.text);
+    var cagriSesAksamparse = int.parse(cagriSesAksamController.text);
+    var dlatitudeparse = double.parse(dLatitude.text);
+    var dlongitudeparse = double.parse(dLongitude.text);
 
     var snap = await FirebaseFirestore.instance.collection("hedef").doc(widget.id).update({
-      "hedefAdi": _hedefAdi.text,
+      "hedefAdi": hedefAdi.text,
       "telefon": telefonparse,
       "ogrencikota": ogrenciKotaparse,
       "servisKota": servisKotaparse,
-      "ogrenciSayisi": ogrenciSayisiparse,
       "cagrisesId": cagriSesIdparse,
-      "anlasma": _anlasmaController.text,
+      "anlasma": anlasmaController.text,
       "komisyon": komisyonparse,
       "fiyatnet": fiyatparse,
       "yer._latitude": dlatitudeparse,
       "yer._longitude": dlongitudeparse,
-      "tip": _tip.text,
-      "cagriSesAksam": cagriSesAksamparse
-    });
+      "tip": tip.text,
+      "cagriSesAksam": cagriSesAksamparse,
+      "bildirimTel": telefon.text
+    }).then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Okul Güncelleme Başarılı!"),
+          backgroundColor: ProjectColors.amber,
+        )));
   }
 
   @override
@@ -112,10 +111,6 @@ class _UpdateState extends State<Update> {
             TextButton(
               onPressed: () {
                 getUpdate();
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Okul Güncelleme Başarılı!"),
-                  backgroundColor: ProjectColors.amber,
-                ));
               },
               child: Text(
                 ProjectText.guncelle,
@@ -131,8 +126,6 @@ class _UpdateState extends State<Update> {
             kotaInputFunction(),
             ogrenciSayisiFunction(),
             fiyatFunction(),
-            anlasma(),
-            cagriSesAksam(),
             yerFunction(),
             tipMethot(),
           ],
@@ -141,9 +134,9 @@ class _UpdateState extends State<Update> {
 
   Padding okulName() {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(top: 20, bottom: 10, right: 8, left: 8),
       child: TextFormField(
-        controller: _hedefAdi,
+        controller: hedefAdi,
         keyboardType: TextInputType.name,
         autofocus: true,
         autofillHints: const [AutofillHints.email],
@@ -155,7 +148,7 @@ class _UpdateState extends State<Update> {
 
   Padding kotaInputFunction() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.only(bottom: 15, top: 10),
       child: Row(
         children: [
           Padding(
@@ -164,7 +157,7 @@ class _UpdateState extends State<Update> {
               width: 170,
               height: 50,
               child: TextFormField(
-                controller: _ogrencikota,
+                controller: ogrencikota,
                 keyboardType: TextInputType.number,
                 autofocus: true,
                 textInputAction: TextInputAction.next,
@@ -178,14 +171,13 @@ class _UpdateState extends State<Update> {
               width: 170,
               height: 50,
               child: TextFormField(
-                  controller: _serviskota,
+                  controller: serviskota,
                   keyboardType: TextInputType.number,
                   autofocus: true,
                   autofillHints: const [AutofillHints.telephoneNumber],
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
-                      hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
-                      hintText: 'Servis Kota Sayısı',
+                      label: Text("Servis Kota Sayısı"),
                       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)))),
             ),
           ),
@@ -198,7 +190,7 @@ class _UpdateState extends State<Update> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
-        controller: _telefon,
+        controller: telefon,
         keyboardType: TextInputType.phone,
         autofocus: true,
         autofillHints: const [AutofillHints.telephoneNumber],
@@ -219,7 +211,7 @@ class _UpdateState extends State<Update> {
               width: 170,
               height: 50,
               child: TextFormField(
-                controller: _cagriSesId,
+                controller: cagriSesId,
                 keyboardType: TextInputType.number,
                 autofocus: true,
                 autofillHints: const [AutofillHints.name],
@@ -234,11 +226,11 @@ class _UpdateState extends State<Update> {
               width: 170,
               height: 50,
               child: TextFormField(
-                controller: _ogrenciSayisi,
+                controller: cagriSesAksamController,
                 keyboardType: TextInputType.number,
                 autofocus: true,
                 textInputAction: TextInputAction.next,
-                decoration: _InputDecarotor().ogrenciSayisiInput,
+                decoration: _InputDecarotor().cagriSesAksamInput,
               ),
             ),
           ),
@@ -256,7 +248,7 @@ class _UpdateState extends State<Update> {
             width: 170,
             height: 50,
             child: TextFormField(
-              controller: _komisyon,
+              controller: komisyon,
               keyboardType: TextInputType.number,
               autofocus: true,
               textInputAction: TextInputAction.next,
@@ -270,7 +262,7 @@ class _UpdateState extends State<Update> {
             width: 170,
             height: 50,
             child: TextFormField(
-              controller: _fiyat,
+              controller: fiyat,
               keyboardType: TextInputType.number,
               autofocus: true,
               textInputAction: TextInputAction.next,
@@ -282,22 +274,9 @@ class _UpdateState extends State<Update> {
     );
   }
 
-  Padding cagriSesAksam() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextFormField(
-        controller: _cagriSesAksamController,
-        keyboardType: TextInputType.number,
-        autofocus: true,
-        textInputAction: TextInputAction.next,
-        decoration: _InputDecarotor().cagriSesAksamInput,
-      ),
-    );
-  }
-
   Padding yerFunction() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.only(bottom: 15, top: 20),
       child: Row(
         children: [
           Padding(
@@ -306,7 +285,7 @@ class _UpdateState extends State<Update> {
               width: 170,
               height: 50,
               child: TextFormField(
-                controller: _dLatitude,
+                controller: dLatitude,
                 keyboardType: TextInputType.number,
                 autofocus: true,
                 autofillHints: const [AutofillHints.name],
@@ -321,7 +300,7 @@ class _UpdateState extends State<Update> {
               width: 170,
               height: 50,
               child: TextFormField(
-                controller: _dLongitude,
+                controller: dLongitude,
                 keyboardType: TextInputType.number,
                 autofocus: true,
                 textInputAction: TextInputAction.next,
@@ -338,64 +317,64 @@ class _UpdateState extends State<Update> {
     return Container(
       padding: EdgeInsets.all(20),
       alignment: Alignment.centerLeft,
-      child: Column(
+      child: Row(
         children: [
-          Text("Tip Seçiniz"),
-          DropdownButton(
-            value: dropdownvalue,
-            icon: const Icon(Icons.keyboard_arrow_down),
-            items: items.map((String items) {
-              return DropdownMenuItem(
-                value: items,
-                child: Text(items),
-              );
-            }).toList(),
-            onChanged: (String? newValue) {
-              setState(() {
-                dropdownvalue = newValue!;
-                if (dropdownvalue.contains('g')) {
-                  _tip.text = "1";
-                  _cagriSesId.text = "13508667";
-                  _cagriSesAksamController.text = "13508667";
-                } else {
-                  _tip.text = "2";
-                  _cagriSesId.text = "20825999";
-                  _cagriSesAksamController.text = "20825999";
-                }
-              });
-            },
+          Column(
+            children: [
+              Text("Tip Seçiniz"),
+              DropdownButton(
+                value: dropdownvalue,
+                icon: const Icon(Icons.keyboard_arrow_down),
+                items: items.map((String items) {
+                  return DropdownMenuItem(
+                    value: items,
+                    child: Text(items),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownvalue = newValue!;
+                    if (dropdownvalue.contains('g')) {
+                      tip.text = "1";
+                      cagriSesId.text = "20825999";
+                      cagriSesAksamController.text = "20825999";
+                    } else {
+                      tip.text = "2";
+                      cagriSesId.text = "13508667";
+                      cagriSesAksamController.text = "13508667";
+                    }
+                  });
+                },
+              ),
+            ],
           ),
-        ],
-      ),
-    );
-  }
-
-  Container anlasma() {
-    return Container(
-      padding: EdgeInsets.all(20),
-      alignment: Alignment.centerLeft,
-      child: Column(
-        children: [
-          Text(ProjectText.anlasmaSeciniz),
-          DropdownButton(
-            value: anlasmadropdownvalue,
-            icon: ProjectIcon.tipIcon,
-            items: itemsss.map((String itemss) {
-              return DropdownMenuItem(
-                value: itemss,
-                child: Text(itemss),
-              );
-            }).toList(),
-            onChanged: (String? newVal) {
-              setState(() {
-                anlasmadropdownvalue = newVal!;
-                if (anlasmadropdownvalue.contains('B')) {
-                  _anlasmaController.text = "1";
-                } else {
-                  _anlasmaController.text = "2";
-                }
-              });
-            },
+          Padding(
+            padding: const EdgeInsets.only(left: 120),
+            child: Column(
+              children: [
+                Text(ProjectText.anlasmaSeciniz),
+                DropdownButton(
+                  value: anlasmadropdownvalue,
+                  icon: ProjectIcon.tipIcon,
+                  items: itemsss.map((String itemss) {
+                    return DropdownMenuItem(
+                      value: itemss,
+                      child: Text(itemss),
+                    );
+                  }).toList(),
+                  onChanged: (String? newVal) {
+                    setState(() {
+                      anlasmadropdownvalue = newVal!;
+                      if (anlasmadropdownvalue.contains('B')) {
+                        anlasmaController.text = "1";
+                      } else {
+                        anlasmaController.text = "2";
+                      }
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -434,8 +413,6 @@ class _InputDecarotor {
       label: Text("Anlasma"), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final fiyatNetInput = InputDecoration(
       label: Text("Net Fiyat"), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
-  final ogrenciSayisiInput = InputDecoration(
-      label: Text("Öğrenci Sayısı"), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final cagriSesAksamInput = InputDecoration(
       label: Text("Çağrı Ses Akşam"), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final komisyonInput = InputDecoration(

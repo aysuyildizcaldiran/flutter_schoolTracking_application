@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_json/material/colors.dart';
 import 'package:flutter_application_json/material/text.dart';
 import 'package:flutter_application_json/service/kullanici_service.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class KullaniciAdd extends StatefulWidget {
   final String id;
@@ -13,14 +12,13 @@ class KullaniciAdd extends StatefulWidget {
 }
 
 class _KullaniciAddState extends State<KullaniciAdd> {
-  TextEditingController yakinMesafeController = TextEditingController();
   KullaniciServis kullaniciServis = KullaniciServis();
+  TextEditingController yakinMesafeController = TextEditingController();
   TextEditingController nameController = TextEditingController();
-  TextEditingController dLatitude = TextEditingController();
-  TextEditingController dLongitude = TextEditingController();
+  TextEditingController? dLatitude = TextEditingController();
+  TextEditingController? dLongitude = TextEditingController();
   TextEditingController telefon = TextEditingController();
   TextEditingController sifreController = TextEditingController();
-
   TextEditingController sms = TextEditingController();
   TextEditingController hedefID = TextEditingController();
   bool smsisChecked = true;
@@ -32,9 +30,17 @@ class _KullaniciAddState extends State<KullaniciAdd> {
   bool idariisChecked = false;
   bool veliisChecked = false;
   @override
+  void setState(VoidCallback fn) {
+    super.setState(fn);
+    hedefID.text = widget.id;
+  }
+
+  @override
   void initState() {
     super.initState();
     yakinMesafeController.text = "250";
+    sifreController.text = "12345678";
+    hedefID.text = widget.id;
     smsisChecked;
     cagriisChecked;
     hostesisChecked;
@@ -138,8 +144,8 @@ class _KullaniciAddState extends State<KullaniciAdd> {
               kullaniciServis.addKisi(
                 nameController.text,
                 telefon.text,
-                dLatitude.text,
-                dLongitude.text,
+                dLatitude!.text,
+                dLongitude!.text,
                 sifreController.text,
                 yakinMesafeController.text,
                 telefon.text,
@@ -330,7 +336,7 @@ class _KullaniciAddState extends State<KullaniciAdd> {
               width: 170,
               height: 50,
               child: TextField(
-                controller: dLatitude,
+                controller: dLatitude!,
                 keyboardType: TextInputType.number,
                 autofocus: true,
                 autofillHints: const [AutofillHints.name],
@@ -345,7 +351,7 @@ class _KullaniciAddState extends State<KullaniciAdd> {
               width: 170,
               height: 50,
               child: TextField(
-                controller: dLongitude,
+                controller: dLongitude!,
                 keyboardType: TextInputType.number,
                 autofocus: true,
                 textInputAction: TextInputAction.next,

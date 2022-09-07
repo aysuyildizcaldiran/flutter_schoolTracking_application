@@ -7,8 +7,8 @@ class KullaniciServis {
   Future<String> addKisi(
       String adSoyad,
       String telefon,
-      String dLatitude,
-      String dLongitude,
+      String? dLatitude,
+      String? dLongitude,
       String sifre,
       String yaklastiMesafe,
       String bildirimTel,
@@ -21,11 +21,20 @@ class KullaniciServis {
       bool idariisChecked,
       bool veliisChecked,
       List<String> hedefID) async {
+    int dLongitudeparse;
+    int dLatitudeparse;
     var bildirimTelparse = int.parse(bildirimTel);
-    var dLatitudeparse = int.parse(dLatitude);
-    var dLongitudeparse = int.parse(dLongitude);
     var yaklastiMesafeparse = int.parse(yaklastiMesafe);
-
+    if (dLongitude!.isEmpty) {
+      dLongitudeparse = 0;
+    } else {
+      dLongitudeparse = int.parse(dLongitude);
+    }
+    if (dLatitude!.isEmpty) {
+      dLatitudeparse = 0;
+    } else {
+      dLatitudeparse = int.parse(dLatitude);
+    }
     KullaniciJson kullaniciJson = KullaniciJson(
         adSoyad: adSoyad,
         bildirimTel: bildirimTelparse,
@@ -48,9 +57,9 @@ class KullaniciServis {
         durum: true,
         hedefId: hedefID);
 
-    DocumentReference ref = await _firestore.collection("kisi").add(kullaniciJson.toJson());
+    DocumentReference ref = await _firestore.collection("kullanici").add(kullaniciJson.toJson());
 
-    await _firestore.collection("kisi").doc(ref.id).update({"rid": ref.id});
+    await _firestore.collection("kullanici").doc(ref.id).update({"rid": ref.id});
     return sonuc;
   }
 }

@@ -17,7 +17,7 @@ class _AddViewState extends State<AddView> {
   TextEditingController telefon = TextEditingController();
   TextEditingController ogrencikota = TextEditingController();
   TextEditingController serviskota = TextEditingController();
-  TextEditingController ogrenciSayisi = TextEditingController();
+
   TextEditingController cagriSesId = TextEditingController();
   TextEditingController komisyon = TextEditingController();
   TextEditingController fiyat = TextEditingController();
@@ -34,8 +34,10 @@ class _AddViewState extends State<AddView> {
   @override
   void initState() {
     super.initState();
-    cagriSesId.text = "13508667";
-    cagriSesAksamController.text = "13508667";
+    tip.text = "1";
+    anlasmaController.text = "1";
+    cagriSesId.text = "20825999";
+    cagriSesAksamController.text = "20825999";
   }
 
   @override
@@ -52,8 +54,6 @@ class _AddViewState extends State<AddView> {
               kotaInputFunction(),
               ogrenciSayisiFunction(),
               fiyatFunction(),
-              anlasma(),
-              cagriSesAksam(),
               yerFunction(),
               tipMethot(),
             ],
@@ -83,7 +83,6 @@ class _AddViewState extends State<AddView> {
               telefon.text,
               ogrencikota.text,
               serviskota.text,
-              ogrenciSayisi.text,
               cagriSesId.text,
               komisyon.text,
               fiyat.text,
@@ -109,64 +108,64 @@ class _AddViewState extends State<AddView> {
     return Container(
       padding: EdgeInsets.all(20),
       alignment: Alignment.centerLeft,
-      child: Column(
+      child: Row(
         children: [
-          Text(ProjectText.tipSeciniz),
-          DropdownButton(
-            value: dropdownvalue,
-            icon: ProjectIcon.tipIcon,
-            items: items.map((String items) {
-              return DropdownMenuItem(
-                value: items,
-                child: Text(items),
-              );
-            }).toList(),
-            onChanged: (String? newValue) {
-              setState(() {
-                dropdownvalue = newValue!;
-                if (dropdownvalue.contains('g')) {
-                  tip.text = "1";
-                  cagriSesId.text = "13508667";
-                  cagriSesAksamController.text = "13508667";
-                } else {
-                  tip.text = "2";
-                  cagriSesId.text = "20825999";
-                  cagriSesAksamController.text = "20825999";
-                }
-              });
-            },
+          Column(
+            children: [
+              Text(ProjectText.tipSeciniz),
+              DropdownButton(
+                value: dropdownvalue,
+                icon: ProjectIcon.tipIcon,
+                items: items.map((String items) {
+                  return DropdownMenuItem(
+                    value: items,
+                    child: Text(items),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownvalue = newValue!;
+                    if (dropdownvalue.contains('g')) {
+                      tip.text = "1";
+                      cagriSesId.text = "20825999";
+                      cagriSesAksamController.text = "20825999";
+                    } else {
+                      tip.text = "2";
+                      cagriSesId.text = "13508667";
+                      cagriSesAksamController.text = "13508667";
+                    }
+                  });
+                },
+              ),
+            ],
           ),
-        ],
-      ),
-    );
-  }
-
-  Container anlasma() {
-    return Container(
-      padding: EdgeInsets.all(20),
-      alignment: Alignment.centerLeft,
-      child: Column(
-        children: [
-          Text(ProjectText.anlasmaSeciniz),
-          DropdownButton(
-            value: anlasmadropdownvalue,
-            icon: ProjectIcon.tipIcon,
-            items: itemsss.map((String itemss) {
-              return DropdownMenuItem(
-                value: itemss,
-                child: Text(itemss),
-              );
-            }).toList(),
-            onChanged: (String? newVal) {
-              setState(() {
-                anlasmadropdownvalue = newVal!;
-                if (anlasmadropdownvalue.contains('B')) {
-                  anlasmaController.text = "1";
-                } else {
-                  anlasmaController.text = "2";
-                }
-              });
-            },
+          Padding(
+            padding: const EdgeInsets.only(left: 120),
+            child: Column(
+              children: [
+                Text(ProjectText.anlasmaSeciniz),
+                DropdownButton(
+                  value: anlasmadropdownvalue,
+                  icon: ProjectIcon.tipIcon,
+                  items: itemsss.map((String itemss) {
+                    return DropdownMenuItem(
+                      value: itemss,
+                      child: Text(itemss),
+                    );
+                  }).toList(),
+                  onChanged: (String? newVal) {
+                    setState(() {
+                      anlasmadropdownvalue = newVal!;
+                      if (anlasmadropdownvalue.contains('B')) {
+                        anlasmaController.text = "1";
+                      } else {
+                        anlasmaController.text = "2";
+                      }
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -175,11 +174,11 @@ class _AddViewState extends State<AddView> {
 
   Padding yerFunction() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.only(bottom: 15, top: 15),
       child: Row(
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 10),
+            padding: EdgeInsets.only(left: 5),
             child: SizedBox(
               width: 170,
               height: 50,
@@ -194,7 +193,7 @@ class _AddViewState extends State<AddView> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 30),
+            padding: const EdgeInsets.only(left: 20),
             child: SizedBox(
               width: 170,
               height: 50,
@@ -212,24 +211,11 @@ class _AddViewState extends State<AddView> {
     );
   }
 
-  Padding cagriSesAksam() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextField(
-        controller: cagriSesAksamController,
-        keyboardType: TextInputType.number,
-        autofocus: true,
-        textInputAction: TextInputAction.next,
-        decoration: _InputDecarotor().cagriSesAksamInput,
-      ),
-    );
-  }
-
   Row fiyatFunction() {
     return Row(
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 10),
+          padding: EdgeInsets.only(left: 5),
           child: SizedBox(
             width: 170,
             height: 50,
@@ -243,7 +229,7 @@ class _AddViewState extends State<AddView> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 30),
+          padding: const EdgeInsets.only(left: 20),
           child: SizedBox(
             width: 170,
             height: 50,
@@ -266,7 +252,7 @@ class _AddViewState extends State<AddView> {
       child: Row(
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 10),
+            padding: EdgeInsets.only(left: 5),
             child: SizedBox(
               width: 170,
               height: 50,
@@ -281,16 +267,16 @@ class _AddViewState extends State<AddView> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 30),
+            padding: const EdgeInsets.only(left: 20),
             child: SizedBox(
               width: 170,
               height: 50,
               child: TextField(
-                controller: ogrenciSayisi,
+                controller: cagriSesAksamController,
                 keyboardType: TextInputType.number,
                 autofocus: true,
                 textInputAction: TextInputAction.next,
-                decoration: _InputDecarotor().ogrenciSayisiInput,
+                decoration: _InputDecarotor().cagriSesAksamInput,
               ),
             ),
           ),
@@ -301,11 +287,11 @@ class _AddViewState extends State<AddView> {
 
   Padding kotaInputFunction() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.only(bottom: 20, top: 10),
       child: Row(
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 10),
+            padding: EdgeInsets.only(left: 5),
             child: SizedBox(
               width: 170,
               height: 50,
@@ -320,7 +306,7 @@ class _AddViewState extends State<AddView> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 30),
+            padding: const EdgeInsets.only(left: 20),
             child: SizedBox(
               width: 170,
               height: 50,
@@ -394,8 +380,6 @@ class _InputDecarotor {
 
   final fiyatNetInput = InputDecoration(
       label: Text("Net Fiyat"), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
-  final ogrenciSayisiInput = InputDecoration(
-      label: Text("Öğrenci Sayısı"), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final cagriSesAksamInput = InputDecoration(
       label: Text("Çağrı Ses Akşam"), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)));
   final komisyonInput = InputDecoration(

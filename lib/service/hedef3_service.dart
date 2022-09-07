@@ -11,7 +11,6 @@ class Hedef3Service {
     String telefon,
     String ogrencikota,
     String serviskota,
-    String ogrenciSayisi,
     String cagriSesId,
     String komisyon,
     String fiyat,
@@ -23,9 +22,9 @@ class Hedef3Service {
   ) async {
     var telefonparse = int.parse(telefon);
     var ogrencikotaparse = int.parse(ogrencikota);
-    var ogrenciSayisiparse = int.parse(ogrenciSayisi);
     var serviskotaparse = int.parse(serviskota);
     var cagriSesIdparse = int.parse(cagriSesId);
+    var cagriSesAksamparse = int.parse(cagriSesAksamController);
     var komisyonparse = int.parse(komisyon);
     var fiyatparse = double.parse(fiyat);
     var dLatitudeparse = double.parse(dLatitude);
@@ -36,14 +35,14 @@ class Hedef3Service {
         telefon: telefonparse,
         ogrenciKota: ogrencikotaparse,
         servisKota: serviskotaparse,
-        ogrenciSayisi: ogrenciSayisiparse,
+        ogrenciSayisi: 0,
         cagrisesId: cagriSesIdparse,
         komisyon: komisyonparse,
         fiyatnet: fiyatparse,
         anlasma: anlasmaController,
         tip: tip,
         aylikOdeme: false,
-        cagriSesAksam: 20825999,
+        cagriSesAksam: cagriSesAksamparse,
         yer: Yer(dLatitude: dLatitudeparse, dLongitude: dLongitudeparse),
         logo: "https://servisbildirim.com/ayarlar/servis-bildirim-logo.jpg",
         guncelleme: 1652640548,
@@ -56,7 +55,7 @@ class Hedef3Service {
             toplamaBitir: ToplamaBitir(mesaj: "Toplama bitirildi.", durum: true)),
         toplaBtn: ToplaBtn(
           beklendiAlindi: Yaklasti(
-            renk: "0xffffc744",
+            renk: "0xff38761d",
             kilit: false,
             cagri: true,
             yon: 1,
@@ -86,7 +85,7 @@ class Hedef3Service {
             kmesaj: "Personel iş yönünde ki servise binmedi.",
           ),
           indi: Yaklasti(
-              renk: "0xff8ec33f",
+              renk: "0xff30a9e0",
               kilit: true,
               cagri: false,
               yon: 1,
@@ -95,7 +94,7 @@ class Hedef3Service {
               sms: false,
               kmesaj: "Personel iş yönünde varış durağında indi"),
           beklendiAlinmadi: Yaklasti(
-              renk: "0xffffc744",
+              renk: "0xff990000",
               kilit: true,
               cagri: true,
               yon: 1,
@@ -104,7 +103,7 @@ class Hedef3Service {
               sms: false,
               kmesaj: "Servis sizi almak için durağa yaklaştı."),
           duragaYaklasti: Yaklasti(
-              renk: "0xff8ec33f",
+              renk: "0xffffc744",
               kilit: false,
               cagri: true,
               yon: 1,
@@ -117,14 +116,14 @@ class Hedef3Service {
             indi: Yaklasti(
                 yon: 2,
                 mesaj: "Öğrenci ev yönünde, akşam durağına  bırakıldı.",
-                renk: "0xff8ec33f",
+                renk: "0xff30a9e0",
                 kilit: true,
                 text: "İndi",
                 cagri: false,
                 kmesaj: "Personel ev yönünde, varış durağında indi.",
                 sms: true),
             yaklasti: Yaklasti(
-                renk: "0xff8ec33f",
+                renk: "0xffffc744",
                 sms: true,
                 kmesaj: "eve yaklaştı",
                 cagri: true,
@@ -136,7 +135,7 @@ class Hedef3Service {
                 kmesaj: "Personel ev yönüne gitmek üzere servise bindi.",
                 mesaj: "Öğrenci eve varmak üzere, akşam servisine bindi.",
                 text: "Bindi",
-                renk: "0xffff1122",
+                renk: "0xff8ec33f",
                 cagri: false,
                 kilit: false,
                 yon: 2,
@@ -178,10 +177,6 @@ class Hedef3Service {
 
     await _firestore.collection("odeme").add(odeme.toJson());
     await _firestore.collection("arama").add(arama.toJson());
-    // DocumentReference ref3 = await _firestore.collection("hedef").get(ref.id);
-    // print("-------------------------");
-    // print(ref.id);
-    // print("------------------");
 
     var ref2 = await _firestore.collection("hedef").doc(ref.id).update({
       "servisBtn.toplamaBasla.id": ref.id + "s1",

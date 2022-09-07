@@ -23,7 +23,7 @@ class _LoginState extends State<Login> {
   }
 
   getData(String email, String sifre) {
-    FirebaseFirestore.instance.collection('kullanici').get().then((QuerySnapshot querySnapshot) {
+    FirebaseFirestore.instance.collection("kisi").get().then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
         String sifre2 = doc["sifre"];
         String email2 = doc["email"];
@@ -75,6 +75,11 @@ class _LoginState extends State<Login> {
                 onPressed: () {
                   if (email.text.isNotEmpty && sifre.text.isNotEmpty) {
                     getData(email.text, sifre.text);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text("Lütfen email ve şifrenizi giriniz!"),
+                      backgroundColor: ProjectColors.amber,
+                    ));
                   }
                 },
                 child: Text("Giriş"),

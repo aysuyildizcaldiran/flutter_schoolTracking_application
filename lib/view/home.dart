@@ -18,7 +18,7 @@ class _HomeState extends State<Home> {
   static const List<Widget> _widgetOptions = <Widget>[
     Lists(),
     AddView(),
-    SearchView(),
+    My(),
   ];
   void _onItemTapped(int index) {
     setState(() {
@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
             label: 'Add',
           ),
           BottomNavigationBarItem(
-            icon: ProjectIcon.searchIcon,
+            icon: Icon(Icons.search),
             label: 'Search',
           ),
         ],

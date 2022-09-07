@@ -34,10 +34,7 @@ class _KullaniciUpdateState extends State<KullaniciUpdate> {
   @override
   void initState() {
     super.initState();
-    try {
-      getData();
-    } catch (e) {}
-
+    getData();
     durumisChecked;
     smsisChecked;
     cagriisChecked;
@@ -47,12 +44,11 @@ class _KullaniciUpdateState extends State<KullaniciUpdate> {
     adminisChecked;
     idariisChecked;
     veliisChecked;
-    durumisChecked;
   }
 
   getData() async {
     try {
-      var snap = await FirebaseFirestore.instance.collection("kisi").doc(widget.id).get();
+      var snap = await FirebaseFirestore.instance.collection("kullanici").doc(widget.id).get();
       userData = snap.data()!;
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -87,11 +83,12 @@ class _KullaniciUpdateState extends State<KullaniciUpdate> {
     var dlatitudeparse = int.parse(dLatitude.text);
     var dlongitudeparse = int.parse(dLongitude.text);
 
-    var snap = await FirebaseFirestore.instance.collection("kisi").doc(widget.id).update({
+    var snap = await FirebaseFirestore.instance.collection("kullanici").doc(widget.id).update({
       "adSoyad": nameController.text,
-      "telefon": telefonparse,
+      "telefon": telefon.text,
       "sifre": sifreController.text,
       "yaklastiMesafe": yakinMesafeparse,
+      "bildirimTel": telefonparse,
       "adres._latitude": dlatitudeparse,
       "adres._longitude": dlongitudeparse,
       "tercih.sms": smsisChecked,
